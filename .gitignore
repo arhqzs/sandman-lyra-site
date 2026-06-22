@@ -1,0 +1,23 @@
+# Sandman Lyra — files we don't track / don't ship
+
+# Local tooling & deploy artifacts (never deploy these)
+.claude/
+*.exe
+deploy.tar.gz
+setup.sh
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor noise
+.vscode/
+.idea/
+*.swp
+
+# Generated, if we later add a build tool
+node_modules/
+dist/
+.cache/
+.netlify/

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sandman Lyra — The Universe of Sander Lylloff</title>
+  <meta name="description" content="The living universe of Sander Lylloff — Sandman Lyra. Backgammon World Champion, Poker Champion, chess mind, entrepreneur, writer, traveller. Exploring advantage in all forms — at the board, at the table, in business, and in life." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;text y='26' font-size='26'&gt;&#10022;&lt;/text&gt;&lt;/svg&gt;" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Primary">
+      <a class="brand" href="index.html">
+        <span class="monogram">SL</span>
+        <span class="brand-text"><b>Sandman Lyra</b><i>The universe of Sander Lylloff</i></span>
+      </a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="live.html">Live</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="library.html">Library</a></li>
+        <li><a href="media.html">Media</a></li>
+        <li><a href="sports-mind.html">Sports Mind</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="culture.html">Culture</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="hero-sky" aria-hidden="true">
+        <canvas id="starfield"></canvas>
+      </div>
+
+      <!-- The night scene: moon over the sea, the board, the books, the globe -->
+      <div class="hero-scene" aria-hidden="true">
+        <svg viewBox="0 0 900 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f4ead0" stop-opacity="0.9"/>
+              <stop offset="55%" stop-color="#e8dcb8" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#e8dcb8" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="moonFace" cx="42%" cy="38%" r="70%">
+              <stop offset="0%" stop-color="#f7efd9"/>
+              <stop offset="70%" stop-color="#e3d4ac"/>
+              <stop offset="100%" stop-color="#cdbb8d"/>
+            </radialGradient>
+            <linearGradient id="seaFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#d8b766" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#d8b766" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- moon -->
+          <circle cx="640" cy="190" r="170" fill="url(#moonGlow)"/>
+          <circle cx="640" cy="190" r="92" fill="url(#moonFace)"/>
+          <circle cx="610" cy="165" r="13" fill="#cdbb8d" opacity="0.45"/>
+          <circle cx="668" cy="215" r="9" fill="#cdbb8d" opacity="0.4"/>
+          <circle cx="648" cy="155" r="5" fill="#cdbb8d" opacity="0.35"/>
+          <circle cx="615" cy="225" r="6" fill="#cdbb8d" opacity="0.35"/>
+
+          <!-- constellations -->
+          <g stroke="#d8b766" stroke-width="0.8" opacity="0.5">
+            <line x1="160" y1="80" x2="215" y2="112"/><line x1="215" y1="112" x2="262" y2="84"/><line x1="262" y1="84" x2="300" y2="130"/>
+            <line x1="790" y1="330" x2="830" y2="300"/><line x1="830" y1="300" x2="868" y2="332"/>
+          </g>
+          <g fill="#f1d490">
+            <circle cx="160" cy="80" r="2.4"/><circle cx="215" cy="112" r="1.8"/><circle cx="262" cy="84" r="2.6"/><circle cx="300" cy="130" r="1.8"/>
+            <circle cx="790" cy="330" r="2"/><circle cx="830" cy="300" r="2.6"/><circle cx="868" cy="332" r="1.8"/>
+            <circle cx="420" cy="70" r="1.6"/><circle cx="520" cy="330" r="1.6"/><circle cx="760" cy="120" r="1.8"/><circle cx="350" cy="240" r="1.4"/>
+          </g>
+          <!-- shooting star -->
+          <line x1="240" y1="40" x2="330" y2="78" stroke="url(#seaFade)" stroke-width="1.4"/>
+          <path d="M330 78l8 3-6-7z" fill="#f1d490" opacity="0.8"/>
+
+          <!-- sea horizon + moonlight shimmer -->
+          <line x1="60" y1="372" x2="900" y2="372" stroke="#d8b766" stroke-width="0.8" opacity="0.4"/>
+          <g stroke="#e9cd8a" stroke-linecap="round">
+            <line x1="600" y1="388" x2="690" y2="388" stroke-width="2.4" opacity="0.55"/>
+            <line x1="616" y1="404" x2="676" y2="404" stroke-width="2" opacity="0.45"/>
+            <line x1="590" y1="422" x2="700" y2="422" stroke-width="2" opacity="0.35"/>
+            <line x1="620" y1="440" x2="672" y2="440" stroke-width="1.8" opacity="0.28"/>
+            <line x1="100" y1="395" x2="170" y2="395" stroke-width="1.2" opacity="0.16"/>
+            <line x1="320" y1="408" x2="395" y2="408" stroke-width="1.2" opacity="0.14"/>
+            <line x1="760" y1="400" x2="840" y2="400" stroke-width="1.4" opacity="0.2"/>
+          </g>
+
+          <!-- seated figure, from behind, watching the moon -->
+          <g>
+            <ellipse cx="460" cy="468" rx="118" ry="10" fill="#03050b" opacity="0.85"/>
+            <path d="M430 372c0-20 13-34 30-34s30 14 30 34c8 4 16 12 19 24l8 60c1 10-6 16-14 16h-86c-8 0-15-6-14-16l8-60c3-12 11-20 19-24z" fill="#04060d"/>
+            <circle cx="460" cy="330" r="21" fill="#04060d"/>
+            <path d="M481 332c4 10 3 24-2 32" stroke="#d8b766" stroke-width="1" opacity="0.5" fill="none"/>
+            <path d="M508 400c2 8 3 16 3 24" stroke="#d8b766" stroke-width="0.8" opacity="0.35" fill="none"/>
+          </g>
+
+          <!-- table with backgammon board -->
+          <g>
+            <line x1="180" y1="520" x2="880" y2="520" stroke="#d8b766" stroke-width="1" opacity="0.5"/>
+            <!-- board frame -->
+            <g transform="translate(255,455)">
+              <rect x="0" y="0" width="300" height="58" rx="3" stroke="#d8b766" stroke-width="1.2" fill="rgba(216,183,102,0.05)"/>
+              <line x1="150" y1="0" x2="150" y2="58" stroke="#d8b766" stroke-width="1.2" opacity="0.8"/>
+              <!-- points -->
+              <g fill="#d8b766">
+                <path d="M12 0l11 30L34 0z" opacity="0.85"/>
+                <path d="M40 0l11 30L62 0z" opacity="0.3"/>
+                <path d="M68 0l11 30L90 0z" opacity="0.85"/>
+                <path d="M96 0l11 30L118 0z" opacity="0.3"/>
+                <path d="M124 0l11 30L146 0z" opacity="0.85"/>
+                <path d="M162 0l11 30L184 0z" opacity="0.3"/>
+                <path d="M190 0l11 30L212 0z" opacity="0.85"/>
+                <path d="M218 0l11 30L240 0z" opacity="0.3"/>
+                <path d="M246 0l11 30L268 0z" opacity="0.85"/>
+                <path d="M274 0l11 30L296 0z" opacity="0.3"/>
+              </g>
+              <g fill="#04060d" stroke="#d8b766" stroke-width="1">
+                <circle cx="26" cy="48" r="6"/><circle cx="40" cy="48" r="6"/><circle cx="54" cy="48" r="6"/>
+                <circle cx="206" cy="48" r="6"/><circle cx="220" cy="48" r="6"/>
+              </g>
+              <g fill="#d8b766">
+                <circle cx="120" cy="48" r="6"/><circle cx="134" cy="48" r="6"/><circle cx="262" cy="48" r="6"/>
+              </g>
+              <!-- dice -->
+              <rect x="166" y="38" width="13" height="13" rx="2.5" stroke="#f1d490" stroke-width="1" fill="#0a101f"/>
+              <circle cx="172.5" cy="44.5" r="1.4" fill="#f1d490"/>
+              <rect x="184" y="40" width="13" height="13" rx="2.5" stroke="#f1d490" stroke-width="1" fill="#0a101f"/>
+              <circle cx="188" cy="44" r="1.1" fill="#f1d490"/><circle cx="193" cy="49" r="1.1" fill="#f1d490"/>
+            </g>
+
+            <!-- stack of books -->
+            <g transform="translate(610,452)" stroke="#d8b766" stroke-width="1" fill="rgba(216,183,102,0.05)">
+              <rect x="6" y="46" width="118" height="20" rx="2"/>
+              <rect x="14" y="24" width="102" height="20" rx="2"/>
+              <rect x="22" y="2" width="86" height="20" rx="2"/>
+              <line x1="30" y1="56" x2="110" y2="56" opacity="0.5"/>
+              <line x1="36" y1="34" x2="104" y2="34" opacity="0.5"/>
+              <line x1="44" y1="12" x2="96" y2="12" opacity="0.5"/>
+            </g>
+
+            <!-- globe -->
+            <g transform="translate(790,432)" stroke="#d8b766" fill="none">
+              <circle cx="40" cy="40" r="34" stroke-width="1.2"/>
+              <ellipse cx="40" cy="40" rx="14" ry="34" stroke-width="0.8" opacity="0.7"/>
+              <ellipse cx="40" cy="40" rx="34" ry="12" stroke-width="0.8" opacity="0.7"/>
+              <line x1="40" y1="74" x2="40" y2="86" stroke-width="1.2"/>
+              <line x1="24" y1="86" x2="56" y2="86" stroke-width="1.2"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="wrap" style="position:relative; z-index:2;">
+        <div class="hero-inner">
+          <h1>Sandman Lyra</h1>
+          <p class="sub-eyebrow">The Universe of Sander Lylloff</p>
+          <p class="creds">
+            Backgammon World Champion. Poker Champion. Chess mind.<br />
+            Entrepreneur. Writer. Traveller.<br />
+            <em>Exploring advantage in all forms &mdash; at the board, at the table,
+            in business, and in life.</em>
+          </p>
+          <div class="cta">
+            <a class="btn btn-primary" href="#worlds">Enter the Universe &nbsp;&#10022;</a>
+            <a class="btn btn-ghost" href="contact.html">Work With Me &rarr;</a>
+          </div>
+          <div class="scroll-cue" aria-hidden="true">
+            <span>Scroll</span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ THE WORLDS ============ -->
+    <section class="section" id="worlds">
+      <div class="wrap">
+        <h2 class="sec-title reveal">Step Into the Universe</h2>
+        <div class="card-grid" style="margin-top:2.6rem;">
+
+          <a class="card reveal" href="library.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"/></svg>
+            </span>
+            <h3>The Library</h3>
+            <p>Essays, reflections and ideas on life, strategy, and the human game.</p>
+            <span class="more">Explore</span>
+          </a>
+
+          <a class="card reveal" href="media.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg>
+            </span>
+            <h3>Video &amp; Media</h3>
+            <p>Interviews, talks, documentaries and selected appearances.</p>
+            <span class="more">Explore</span>
+          </a>
+
+          <a class="card reveal" href="sports-mind.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 1 6 6c0 2-1 3.5-2 4.5-.8.8-1 1.7-1 2.5h-6c0-.8-.2-1.7-1-2.5-1-1-2-2.5-2-4.5a6 6 0 0 1 6-6z"/><path d="M9.5 19h5M10.5 21.5h3"/><path d="M9.5 9l2.5 2.5L14.5 9"/></svg>
+            </span>
+            <h3>Sports Mind</h3>
+            <p>Backgammon, poker, chess and the mental models behind winning.</p>
+            <span class="more">Explore</span>
+          </a>
+
+          <a class="card reveal" href="projects.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 8h4v4"/><path d="M3 21h18"/></svg>
+            </span>
+            <h3>Projects &amp; Business</h3>
+            <p>Ventures, investments and ideas turning into impact.</p>
+            <span class="more">Explore</span>
+          </a>
+
+          <a class="card reveal" href="culture.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.5 3.8 5.6 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.6-3.8-9S9.5 5.5 12 3z"/></svg>
+            </span>
+            <h3>Culture</h3>
+            <p>Books, places, music and thoughts that shape the journey.</p>
+            <span class="more">Explore</span>
+          </a>
+
+          <a class="card reveal" href="contact.html">
+            <span class="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l3.5 2.5c1 .7 2.3.7 3.3 0l8.7-6.2"/><path d="M3 9.5l8-5a2 2 0 0 1 2 0l8 5"/><path d="M4 10v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/></svg>
+            </span>
+            <h3>Work With Me</h3>
+            <p>Speaking, consulting, collaborations and strategic partnerships.</p>
+            <span class="more">Explore</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NOW ============ -->
+    <section class="section band">
+      <div class="wrap">
+        <h2 class="sec-title reveal">Where the Universe Is Right Now</h2>
+        <div class="now-grid" style="margin-top:2.6rem;">
+
+          <div class="now-card reveal">
+            <div class="art" aria-hidden="true">
+              <svg viewBox="0 0 90 84" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M30 16h30v10a15 15 0 0 1-30 0z"/>
+                <path d="M30 20h-9a8 8 0 0 0 9 11M60 20h9a8 8 0 0 1-9 11"/>
+                <path d="M45 41v9M36 58h18l-2-8h-14z"/>
+                <path d="M30 66h30M26 72h38"/>
+                <circle cx="14" cy="20" r="1.5" fill="currentColor"/><circle cx="76" cy="14" r="1.5" fill="currentColor"/><circle cx="82" cy="46" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3>World Cup 2026</h3>
+            <p>Eyes on the game. Strategy. Preparation. The next chapter.</p>
+            <span class="badge-mini">In progress</span>
+          </div>
+
+          <div class="now-card reveal">
+            <div class="art" aria-hidden="true">
+              <svg viewBox="0 0 90 84" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="45" cy="44" rx="34" ry="14" transform="rotate(-18 45 44)"/>
+                <circle cx="45" cy="44" r="11"/>
+                <rect x="39" y="38" width="12" height="12" rx="2.5"/>
+                <circle cx="43" cy="42" r="1" fill="currentColor"/><circle cx="47" cy="46" r="1" fill="currentColor"/>
+                <circle cx="74" cy="30" r="2.4" fill="currentColor" stroke="none"/>
+                <circle cx="16" cy="58" r="1.6" fill="currentColor" stroke="none"/>
+              </svg>
+            </div>
+            <h3>Predict Street / Backgammon Galaxy</h3>
+            <p>Building the ultimate backgammon platform. Data. Play. Community.</p>
+            <span class="badge-mini">In building</span>
+          </div>
+
+          <div class="now-card reveal">
+            <div class="art" aria-hidden="true">
+              <svg viewBox="0 0 90 84" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="45" cy="42" r="26"/>
+                <path d="M45 30c-4-3.5-9-4-13-2v22c4-2 9-1.5 13 2 4-3.5 9-4 13-2V28c-4-2-9-1.5-13 2z"/>
+                <path d="M45 30v22"/>
+                <circle cx="45" cy="10" r="1.5" fill="currentColor"/><circle cx="78" cy="60" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3>The Library Opening</h3>
+            <p>A curated collection of ideas and writings. Coming soon.</p>
+            <span class="badge-mini">Coming soon</span>
+          </div>
+
+          <div class="now-card reveal">
+            <div class="art" aria-hidden="true">
+              <svg viewBox="0 0 90 84" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="30" y="12" width="30" height="60" rx="2"/>
+                <path d="M38 72c0-10 3-18 7-22 4 4 7 12 7 22" opacity="0.7"/>
+                <circle cx="45" cy="38" r="5"/>
+                <path d="M45 43v10M40 48l5-3 5 3"/>
+                <path d="M22 26l-6 2 6 2M68 26l6 2-6 2" opacity="0.6"/>
+              </svg>
+            </div>
+            <h3>The Sandman Transformation</h3>
+            <p>Evolving. Expanding. Becoming.</p>
+            <span class="badge-mini">Always</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VENTURES ============ -->
+    <section class="section">
+      <div class="wrap">
+        <h2 class="sec-title reveal">Ventures in Motion</h2>
+        <div class="venture-row" style="margin-top:2.6rem;">
+
+          <div class="venture-card reveal">
+            <span class="v-logo" aria-hidden="true">P</span>
+            <div>
+              <h3>Predict Street</h3>
+              <p>Prediction markets for smarter crowds. Bet on insight. Own the signal.</p>
+              <a class="more" href="projects.html">Learn more</a>
+            </div>
+          </div>
+
+          <div class="venture-card reveal">
+            <span class="v-logo" aria-hidden="true">BG</span>
+            <div>
+              <h3>Backgammon Galaxy</h3>
+              <p>The future home of backgammon. Learn. Play. Compete. Belong.</p>
+              <a class="more" href="projects.html">Learn more</a>
+            </div>
+          </div>
+
+          <div class="venture-card reveal">
+            <span class="v-logo" aria-hidden="true">RF</span>
+            <div>
+              <h3>Rabbit Foot</h3>
+              <p>Luck, nerve and timing &mdash; a brand taking shape. More to be revealed.</p>
+              <a class="more" href="projects.html">Learn more</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COME CLOSER ============ -->
+    <section class="section band">
+      <div class="wrap reveal center" style="max-width:720px; margin-inline:auto;">
+        <p class="eyebrow">There is something here.</p>
+        <h2 style="font-size:clamp(2.4rem, 6vw, 4rem); margin-top:0.8rem; letter-spacing:0.04em;">Come closer.</h2>
+        <p class="script-sign" style="margin-top:1.6rem;">Sandman Lyra</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot">
+        <div class="foot-brand">
+          <a class="brand" href="index.html">
+            <span class="monogram">SL</span>
+            <span class="brand-text"><b>Sandman Lyra</b><i>The universe of Sander Lylloff</i></span>
+          </a>
+          <p>A living archive &mdash; the games, the markets, the words and the travels, gathered under one roof.</p>
+        </div>
+        <div>
+          <p class="foot-h">Navigation</p>
+          <ul class="foot-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="live.html">Live</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="sports-mind.html">Sports Mind</a></li>
+            <li><a href="library.html">Library</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="culture.html">Culture</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="foot-h">Connect</p>
+          <div class="social-row">
+            <a class="social" href="contact.html" aria-label="Instagram" title="Instagram — coming soon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a class="social" href="contact.html" aria-label="YouTube" title="YouTube — coming soon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="13" rx="3.5"/><path d="M10.5 9.8l4.5 2.7-4.5 2.7z" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a class="social" href="contact.html" aria-label="X" title="X — coming soon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg>
+            </a>
+            <a class="social" href="contact.html" aria-label="LinkedIn" title="LinkedIn — coming soon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.5v.01M12 17v-4a2.2 2.2 0 0 1 4.4 0V17" stroke-linecap="round"/></svg>
+            </a>
+            <a class="social" href="contact.html" aria-label="Email" title="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m21 8-9 5.5L3 8"/></svg>
+            </a>
+          </div>
+          <p class="foot-note">Handles arrive with the launch &mdash; for now, every door leads to the contact page.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span data-year>2026</span> Sandman Lyra &middot; All rights reserved &middot; <a href="terms.html" style="color:var(--ink-soft);">Terms &amp; Copyright</a></span>
+        <span class="tagline">Strategy. Freedom. Impact.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
