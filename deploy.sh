@@ -36,8 +36,10 @@ rm -f "$WEBROOT/deploy.sh" "$WEBROOT/README.md"
 chown -R www-data:www-data "$WEBROOT"
 rm -rf /tmp/sl
 
-echo "== [3/4] Configuring the web server =="
-cat > /etc/nginx/sites-available/sandmanlyra << 'NGINX'
+echo "== [3/4] Web server config =="
+if [ ! -f /etc/nginx/sites-available/sandmanlyra ]; then
+  echo "   first-time setup — writing nginx config"
+  cat > /etc/nginx/sites-available/sandmanlyra << 'NGINX'
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -48,8 +50,11 @@ server {
     error_page 404 /404.html;
 }
 NGINX
-ln -sf /etc/nginx/sites-available/sandmanlyra /etc/nginx/sites-enabled/sandmanlyra
-rm -f /etc/nginx/sites-enabled/default
+  ln -sf /etc/nginx/sites-available/sandmanlyra /etc/nginx/sites-enabled/sandmanlyra
+  rm -f /etc/nginx/sites-enabled/default
+else
+  echo "   config already present — leaving it (and HTTPS) untouched"
+fi
 nginx -t
 systemctl reload nginx
 
