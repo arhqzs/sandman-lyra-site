@@ -76,12 +76,14 @@ app.post("/api/publish", (req, res) => {
       const embed = (b.embed || "").trim();
       let section = String(b.section || "live").trim();
       if (SECTIONS.indexOf(section) === -1) section = "live";
+      const subsection = (b.subsection || "").trim().slice(0, 60);
       let cats = b.categories;
       cats = (Array.isArray(cats) ? cats : String(cats || "").split(","))
         .map((c) => String(c).trim()).filter(Boolean);
 
       const post = { id: "", date: "", section: section, type: "text",
         title: title, caption: caption, location: location, categories: cats };
+      if (subsection) post.subsection = subsection;
 
       if (req.file) {
         const rel = "assets/images/live/" + req.file.filename;

@@ -58,6 +58,10 @@
                 <option value="media">Media</option>
               </select>
             </div>
+            <div class="field" id="subWrap" style="display:none;">
+              <label for="subsection">Sub-tab</label>
+              <select id="subsection" name="subsection"></select>
+            </div>
             <div class="field">
               <label for="title">Title <span style="color:var(--muted);">(optional)</span></label>
               <input type="text" id="title" name="title" placeholder="A short heading" />
@@ -113,12 +117,25 @@
     </div>
   </footer>
 
+  <script src="assets/data/sections.js"></script>
   <script src="assets/js/main.js"></script>
   <script>
     (function () {
       var form = document.getElementById("studio-form");
       var btn = document.getElementById("publishBtn");
       var status = document.getElementById("status");
+      var sectionSel = document.getElementById("section");
+      var subSel = document.getElementById("subsection");
+      var subWrap = document.getElementById("subWrap");
+      function fillSub() {
+        var subs = (window.SANDMAN_SECTIONS || {})[sectionSel.value] || [];
+        if (!subs.length) { subWrap.style.display = "none"; subSel.innerHTML = ""; return; }
+        subWrap.style.display = "";
+        subSel.innerHTML = '<option value="">— choose a sub-tab (optional) —</option>' +
+          subs.map(function (s) { return '<option value="' + s.replace(/"/g, "&quot;") + '">' + s + "</option>"; }).join("");
+      }
+      sectionSel.addEventListener("change", fillSub);
+      fillSub();
       var PAGES = { live: "live.html", journal: "journal.html", library: "library.html",
         "sports-mind": "sports-mind.html", culture: "culture.html", media: "media.html" };
 
