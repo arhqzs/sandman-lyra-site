@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Private owner tool: keep it out of search engines and listings. -->
   <meta name="robots" content="noindex, nofollow" />
   <title>Studio — Sandman Lyra (private)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,13 +13,23 @@
   <style>
     .pill { display:inline-block; font-size:0.7rem; letter-spacing:0.18em; text-transform:uppercase;
       color:var(--sand); border:1px solid var(--line); padding:0.2rem 0.7rem; border-radius:999px; }
+    .cats { display:flex; flex-wrap:wrap; gap:0.5rem; }
+    .cat { position:relative; }
+    .cat input { position:absolute; opacity:0; inset:0; cursor:pointer; }
+    .cat span { display:inline-block; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--ink-soft); border:1px solid var(--line-soft); border-radius:999px; padding:0.4rem 0.85rem; cursor:pointer; transition:all .15s; }
+    .cat input:checked + span { color:#221805; background:linear-gradient(180deg,var(--sand-bright),var(--sand)); border-color:transparent; }
+    #status { margin-top:1rem; padding:0.9rem 1.1rem; border-radius:8px; display:none; font-size:0.95rem; }
+    #status.ok { display:block; background:rgba(143,214,168,0.1); border:1px solid #2f6; color:#bfe9cf; }
+    #status.err { display:block; background:rgba(216,80,80,0.1); border:1px solid #a55; color:#e9b9b9; }
+    #status.busy { display:block; background:rgba(216,183,102,0.08); border:1px solid var(--line); color:var(--sand); }
   </style>
 </head>
 <body>
   <header class="site-header">
     <nav class="nav wrap" aria-label="Primary">
       <a class="brand" href="index.html"><span class="monogram">SL</span><span class="brand-text"><b>Sandman Lyra</b><i>The universe of Sander Lylloff</i></span></a>
-      <span class="pill">Private &middot; just for you</span>
+      <span class="pill">Private &middot; Studio</span>
     </nav>
   </header>
 
@@ -29,130 +38,115 @@
       <div class="wrap">
         <p class="eyebrow">Your private desk</p>
         <h1>The Studio</h1>
-        <p class="lede">
-          This page is only for you. It isn&rsquo;t linked anywhere on the site and is
-          hidden from search engines &mdash; bookmark it. Use it to send yourself (or me)
-          new material for the archive whenever inspiration strikes.
-        </p>
+        <p class="lede">Write something, add a photo or video, hit <strong>Publish</strong> &mdash; it appears on your <a href="live.html" style="color:var(--sand);">Live feed</a> at sandmanlyra.com instantly. No email, no waiting.</p>
       </div>
     </div>
 
     <section class="section" style="padding-top:1rem;">
       <div class="wrap" style="max-width:720px;">
         <div class="card">
-          <h2 style="margin-bottom:1.2rem;">Add material to the archive</h2>
+          <h2 style="margin-bottom:1.2rem;">Post to the Live feed</h2>
           <form id="studio-form">
             <div class="field">
-              <label for="kind">Which room does this belong to?</label>
-              <select id="kind" name="kind">
-                <option value="Live update — photo/video from the road">Live update &mdash; photo/video from the road</option>
-                <option value="Library — essay / article / story">Library &mdash; essay, article or story</option>
-                <option value="Journal entry">Journal entry</option>
-                <option value="Philosophy / reflection">Philosophy / reflection</option>
-                <option value="Sports Mind — backgammon / betting note">Sports Mind &mdash; backgammon / betting note</option>
-                <option value="Media — video / clip">Media &mdash; video or clip</option>
-                <option value="Project / business">Project / business</option>
-                <option value="Culture — book / film / music / art">Culture &mdash; book, film, music or art</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="title">Title (optional)</label>
+              <label for="title">Title <span style="color:var(--muted);">(optional)</span></label>
               <input type="text" id="title" name="title" placeholder="A short heading" />
             </div>
             <div class="field">
-              <label for="message">Your words</label>
-              <textarea id="message" name="message" rows="8" placeholder="Write it here. For photos or files, mention them and attach in the email that opens."></textarea>
+              <label for="caption">Your words</label>
+              <textarea id="caption" name="caption" rows="5" placeholder="What's happening? A line from the road&hellip;"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Compose email &rarr;</button>
-            <p style="font-size:0.82rem; color:var(--muted); margin-top:0.9rem;">
-              This opens your email app with everything filled in &mdash; press send (and attach any files).
-              The material then gets placed in the right room, dated and backed up.
-            </p>
+            <div class="field">
+              <label for="location">Location <span style="color:var(--muted);">(optional)</span></label>
+              <input type="text" id="location" name="location" placeholder="e.g. Budva, Montenegro" />
+            </div>
+            <div class="field">
+              <label>Categories</label>
+              <div class="cats">
+                <label class="cat"><input type="checkbox" name="categories" value="World Cup"><span>World Cup</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Betting"><span>Betting</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Backgammon"><span>Backgammon</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Boxing"><span>Boxing</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Art"><span>Art</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Philosophy"><span>Philosophy</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Friends"><span>Friends</span></label>
+                <label class="cat"><input type="checkbox" name="categories" value="Travel"><span>Travel</span></label>
+              </div>
+            </div>
+            <div class="field">
+              <label for="media">Photo or video <span style="color:var(--muted);">(optional)</span></label>
+              <input type="file" id="media" name="media" accept="image/*,video/mp4" />
+              <span style="font-size:0.78rem; color:var(--muted);">Photos any size; videos up to ~80&nbsp;MB. For longer videos, paste a link below instead.</span>
+            </div>
+            <div class="field">
+              <label for="embed">…or a video link <span style="color:var(--muted);">(YouTube / Vimeo, optional)</span></label>
+              <input type="url" id="embed" name="embed" placeholder="https://www.youtube.com/watch?v=…" />
+            </div>
+            <button type="submit" class="btn btn-primary" id="publishBtn">Publish to Live feed &rarr;</button>
+            <div id="status"></div>
           </form>
         </div>
 
-        <div class="card" style="margin-top:1.6rem;">
-          <h3 style="margin-bottom:0.5rem;">A note on keeping this private</h3>
-          <p style="font-size:0.95rem;">
-            For now this page is <em>hidden</em> (unlinked + no search listing), which is plenty
-            while it only composes an email. When the site goes online and you want a proper
-            <strong>locked</strong> &ldquo;log in to add&rdquo; tool &mdash; with named accounts for you and
-            anyone you trust &mdash; we&rsquo;ll add that as the next step.
-          </p>
-        </div>
+        <p style="font-size:0.82rem; color:var(--muted); margin-top:1.2rem; text-align:center;">
+          You're logged in. This desk is private &mdash; only you can reach it.
+        </p>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="wrap">
-      <div class="foot">
-        <div class="foot-brand">
-          <a class="brand" href="index.html"><span class="monogram">SL</span><span class="brand-text"><b>Sandman Lyra</b><i>The universe of Sander Lylloff</i></span></a>
-          <p>A living archive &mdash; the games, the markets, the words and the travels, gathered under one roof.</p>
-        </div>
-        <div>
-          <p class="foot-h">Navigation</p>
-          <ul class="foot-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="live.html">Live</a></li>
-            <li><a href="media.html">Media</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="sports-mind.html">Sports Mind</a></li>
-            <li><a href="library.html">Library</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="culture.html">Culture</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="foot-h">Connect</p>
-          <div class="social-row">
-            <a class="social" href="contact.html" aria-label="Instagram" title="Instagram — coming soon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
-            </a>
-            <a class="social" href="contact.html" aria-label="YouTube" title="YouTube — coming soon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="6" width="19" height="13" rx="3.5"/><path d="M10.5 9.8l4.5 2.7-4.5 2.7z" fill="currentColor" stroke="none"/></svg>
-            </a>
-            <a class="social" href="contact.html" aria-label="X" title="X — coming soon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg>
-            </a>
-            <a class="social" href="contact.html" aria-label="LinkedIn" title="LinkedIn — coming soon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5V17M8 7.5v.01M12 17v-4a2.2 2.2 0 0 1 4.4 0V17" stroke-linecap="round"/></svg>
-            </a>
-            <a class="social" href="contact.html" aria-label="Email" title="Email">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m21 8-9 5.5L3 8"/></svg>
-            </a>
-          </div>
-          <p class="foot-note">Handles arrive with the launch &mdash; for now, every door leads to the contact page.</p>
-        </div>
-      </div>
       <div class="footer-bottom">
-        <span>&copy; <span data-year>2026</span> Sandman Lyra &middot; All rights reserved &middot; <a href="terms.html" style="color:var(--ink-soft);">Terms &amp; Copyright</a></span>
-        <span class="tagline">Strategy. Freedom. Impact.</span>
+        <span>&copy; <span data-year>2026</span> Sandman Lyra &middot; private Studio.</span>
+        <span><a href="index.html" style="color:var(--ink-soft);">&larr; Back to the site</a></span>
       </div>
     </div>
   </footer>
 
   <script src="assets/js/main.js"></script>
   <script>
-    var form = document.getElementById("studio-form");
-    if (form) {
+    (function () {
+      var form = document.getElementById("studio-form");
+      var btn = document.getElementById("publishBtn");
+      var status = document.getElementById("status");
+
+      function normalizeEmbed(url) {
+        if (!url) return "";
+        var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+        if (m) return "https://www.youtube.com/embed/" + m[1];
+        m = url.match(/vimeo\.com\/(\d+)/);
+        if (m) return "https://player.vimeo.com/video/" + m[1];
+        return url; // assume already an embeddable URL
+      }
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-        var kind = document.getElementById("kind").value;
-        var title = document.getElementById("title").value.trim();
-        var message = document.getElementById("message").value.trim();
-        var subject = "[Sandman Lyra · Studio] " + kind + (title ? " — " + title : "");
-        var body =
-          "Room: " + kind + "\n" +
-          (title ? "Title: " + title + "\n" : "") +
-          "\n" + message + "\n";
-        window.location.href =
-          "mailto:hello@sandmanlyra.com?subject=" +
-          encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        var data = new FormData(form);
+        var embed = (data.get("embed") || "").trim();
+        if (embed) { data.set("embed", normalizeEmbed(embed)); }
+
+        btn.disabled = true;
+        status.className = "busy";
+        status.textContent = "Publishing…";
+
+        fetch("/api/publish", { method: "POST", body: data })
+          .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+          .then(function (res) {
+            if (res.ok && res.j.ok) {
+              status.className = "ok";
+              status.innerHTML = "✓ Published! It's live now — <a href='live.html' style='color:var(--sand);'>view your feed →</a>";
+              form.reset();
+            } else {
+              status.className = "err";
+              status.textContent = "Couldn't publish: " + ((res.j && res.j.error) || "unknown error");
+            }
+          })
+          .catch(function (err) {
+            status.className = "err";
+            status.textContent = "Couldn't reach the publishing engine: " + err.message;
+          })
+          .finally(function () { btn.disabled = false; });
       });
-    }
+    })();
   </script>
 </body>
 </html>
