@@ -44,6 +44,8 @@
     .m-del:hover { color:#e9b9b9; border-color:#a55; }
     .m-form { padding:0 1rem 1.1rem; border-top:1px solid var(--line-soft); }
     .m-form .field { margin-top:0.8rem; }
+    .m-filters { display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1.2rem; }
+    .m-filters select { background:rgba(5,8,15,0.7); border:1px solid var(--line-soft); color:var(--ink); padding:0.55rem 0.85rem; border-radius:8px; font:inherit; font-size:0.85rem; }
   </style>
 </head>
 <body>
@@ -122,7 +124,11 @@
 
         <!-- ============ MANAGE ============ -->
         <div id="panel-manage" style="display:none;">
-          <p style="color:var(--ink-soft); margin-bottom:1.2rem;">Everything you've posted, newest first. <strong>Edit</strong> to change the words/section/media, or <strong>Delete</strong> to remove it.</p>
+          <p style="color:var(--ink-soft); margin-bottom:1rem;">Everything you've posted. Filter by section &amp; sub-tab, then <strong>Edit</strong> or <strong>Delete</strong>.</p>
+          <div class="m-filters">
+            <select id="m-section"></select>
+            <select id="m-sub" style="display:none;"></select>
+          </div>
           <div id="manage-list"></div>
         </div>
 
@@ -225,6 +231,27 @@
 
       /* ---- MANAGE ---- */
       var list = document.getElementById("manage-list");
+      var mSection = document.getElementById("m-section");
+      var mSub = document.getElementById("m-sub");
+      mSection.innerHTML = '<option value="">All sections</option>' + SECTIONS.map(function (s) { return '<option value="' + s + '">' + esc(SEC_LABELS[s]) + "</option>"; }).join("");
+      function refreshMSub() {
+        var subs = (window.SANDMAN_SECTIONS || {})[mSection.value] || [];
+        if (!mSection.value || !subs.length) { mSub.style.display = "none"; mSub.innerHTML = ""; return; }
+        mSub.style.display = "";
+        mSub.innerHTML = '<option value="">All sub-tabs</option>' + subs.map(function (s) { return '<option value="' + esc(s) + '">' + esc(s) + "</option>"; }).join("");
+      }
+      mSection.addEventListener("change", function () { refreshMSub(); applyFilter(); });
+      mSub.addEventListener("change", applyFilter);
+      function applyFilter() {
+        var sec = mSection.value, sub = mSub.value;
+        var filtered = POSTS.filter(function (p) {
+          if (sec && (p.section || "live") !== sec) return false;
+          if (sub && (p.subsection || "") !== sub) return false;
+          return true;
+        });
+        list.innerHTML = filtered.length ? filtered.map(itemHTML).join("")
+          : '<p style="color:var(--muted);">No posts' + (sec ? " in this " + (sub ? "sub-tab" : "section") : " yet") + ".</p>";
+      }
       function findPost(id) { for (var i = 0; i < POSTS.length; i++) if (POSTS[i].id === id) return POSTS[i]; return null; }
       function thumb(p) {
         if (p.type === "photo" && p.media) return '<img class="m-thumb" src="' + esc(p.media) + '" alt="">';
@@ -260,7 +287,7 @@
         list.innerHTML = '<p style="color:var(--muted);">Loading…</p>';
         fetch("/api/posts").then(function (r) { return r.json(); }).then(function (j) {
           POSTS = (j && j.posts) || [];
-          list.innerHTML = POSTS.length ? POSTS.map(itemHTML).join("") : '<p style="color:var(--muted);">No posts yet — add one from the Add tab.</p>';
+          applyFilter();
         }).catch(function (e) { list.innerHTML = '<p style="color:#e9b9b9;">Couldn’t load posts: ' + esc(e.message) + "</p>"; });
       }
       list.addEventListener("click", function (e) {
