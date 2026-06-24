@@ -27,10 +27,10 @@ curl -fsSL "$RAW/studio-backend/server.js" -o "$APP/server.js"
 curl -fsSL "$RAW/studio-backend/package.json" -o "$APP/package.json"
 ( cd "$APP" && npm install --omit=dev --no-audit --no-fund )
 
-echo "== [3/6] Seeding the Live feed data (only if missing) =="
+echo "== [3/6] Seeding the feed data (only if missing) =="
 mkdir -p "$WEBROOT/assets/data" "$WEBROOT/assets/images/live"
-if [ ! -f "$WEBROOT/assets/data/live.json" ]; then
-  curl -fsSL "$RAW/assets/data/live.json" -o "$WEBROOT/assets/data/live.json"
+if [ ! -f "$WEBROOT/assets/data/posts.json" ]; then
+  curl -fsSL "$RAW/assets/data/posts.json" -o "$WEBROOT/assets/data/posts.json"
 fi
 chown -R www-data:www-data "$WEBROOT/assets/data" "$WEBROOT/assets/images"
 

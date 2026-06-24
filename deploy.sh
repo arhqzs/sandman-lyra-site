@@ -30,19 +30,19 @@ curl -fsSL "$REPO_TARBALL" -o /tmp/sl/site.tar.gz
 tar xzf /tmp/sl/site.tar.gz -C /tmp/sl
 SRC="$(find /tmp/sl -maxdepth 1 -type d -name 'sandman-lyra-site-*' | head -1)"
 mkdir -p "$WEBROOT/assets/data"
-# preserve the Live feed data (Studio posts) across content updates
-cp -f "$WEBROOT/assets/data/live.json" /tmp/sl-live.json 2>/dev/null || true
-cp -f "$WEBROOT/assets/data/live-data.js" /tmp/sl-live-data.js 2>/dev/null || true
+# preserve the feed data (Studio posts) across content updates
+cp -f "$WEBROOT/assets/data/posts.json" /tmp/sl-posts.json 2>/dev/null || true
+cp -f "$WEBROOT/assets/data/feed-data.js" /tmp/sl-feed-data.js 2>/dev/null || true
 rm -rf "${WEBROOT:?}/"*
 cp -r "$SRC"/* "$WEBROOT"/
 # never web-serve the scripts, docs, or engine source
 rm -f "$WEBROOT"/*.sh "$WEBROOT/README.md"
 rm -rf "$WEBROOT/studio-backend"
-# restore preserved Live feed data so published posts survive updates
-cp -f /tmp/sl-live.json "$WEBROOT/assets/data/live.json" 2>/dev/null || true
-cp -f /tmp/sl-live-data.js "$WEBROOT/assets/data/live-data.js" 2>/dev/null || true
+# restore preserved feed data so published posts survive updates
+cp -f /tmp/sl-posts.json "$WEBROOT/assets/data/posts.json" 2>/dev/null || true
+cp -f /tmp/sl-feed-data.js "$WEBROOT/assets/data/feed-data.js" 2>/dev/null || true
 chown -R www-data:www-data "$WEBROOT"
-rm -rf /tmp/sl /tmp/sl-live.json /tmp/sl-live-data.js
+rm -rf /tmp/sl /tmp/sl-posts.json /tmp/sl-feed-data.js
 
 echo "== [3/4] Web server config =="
 if [ ! -f /etc/nginx/sites-available/sandmanlyra ]; then

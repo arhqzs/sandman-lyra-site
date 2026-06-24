@@ -42,10 +42,8 @@
 
     <section class="section" style="padding-top:0.5rem;">
       <div class="wrap">
-        <!-- category filters (built by live.js) -->
-        <div class="filter-bar" id="filter-bar" role="group" aria-label="Filter the feed by category"></div>
-        <!-- the chronological feed (built by live.js) -->
-        <div class="feed" id="feed"></div>
+        <!-- category filters + chronological feed (built by feed.js) -->
+        <div class="feed" id="feed" data-sl-feed="live" data-sl-filters></div>
 
         <!-- from-the-road note -->
         <div class="empty reveal" style="max-width:680px; margin:3rem auto 0;">
@@ -110,7 +108,7 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
-  <script src="assets/data/live-data.js"></script>
-  <script src="assets/js/live.js"></script>
+  <script src="assets/data/feed-data.js"></script>
+  <script src="assets/js/feed.js"></script>
 </body>
 </html>

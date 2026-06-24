@@ -38,15 +38,26 @@
       <div class="wrap">
         <p class="eyebrow">Your private desk</p>
         <h1>The Studio</h1>
-        <p class="lede">Write something, add a photo or video, hit <strong>Publish</strong> &mdash; it appears on your <a href="live.html" style="color:var(--sand);">Live feed</a> at sandmanlyra.com instantly. No email, no waiting.</p>
+        <p class="lede">Choose where it goes, write something, add a photo or video, hit <strong>Publish</strong> &mdash; it appears on that section of sandmanlyra.com instantly. No email, no waiting.</p>
       </div>
     </div>
 
     <section class="section" style="padding-top:1rem;">
       <div class="wrap" style="max-width:720px;">
         <div class="card">
-          <h2 style="margin-bottom:1.2rem;">Post to the Live feed</h2>
+          <h2 style="margin-bottom:1.2rem;">Publish to the site</h2>
           <form id="studio-form">
+            <div class="field">
+              <label for="section">Where should this go?</label>
+              <select id="section" name="section">
+                <option value="live">Live feed — from the road</option>
+                <option value="journal">Journal</option>
+                <option value="library">Library — essays &amp; writing</option>
+                <option value="sports-mind">Sports Mind</option>
+                <option value="culture">Culture</option>
+                <option value="media">Media</option>
+              </select>
+            </div>
             <div class="field">
               <label for="title">Title <span style="color:var(--muted);">(optional)</span></label>
               <input type="text" id="title" name="title" placeholder="A short heading" />
@@ -81,7 +92,7 @@
               <label for="embed">…or a video link <span style="color:var(--muted);">(YouTube / Vimeo, optional)</span></label>
               <input type="url" id="embed" name="embed" placeholder="https://www.youtube.com/watch?v=…" />
             </div>
-            <button type="submit" class="btn btn-primary" id="publishBtn">Publish to Live feed &rarr;</button>
+            <button type="submit" class="btn btn-primary" id="publishBtn">Publish &rarr;</button>
             <div id="status"></div>
           </form>
         </div>
@@ -108,6 +119,8 @@
       var form = document.getElementById("studio-form");
       var btn = document.getElementById("publishBtn");
       var status = document.getElementById("status");
+      var PAGES = { live: "live.html", journal: "journal.html", library: "library.html",
+        "sports-mind": "sports-mind.html", culture: "culture.html", media: "media.html" };
 
       function normalizeEmbed(url) {
         if (!url) return "";
@@ -115,14 +128,15 @@
         if (m) return "https://www.youtube.com/embed/" + m[1];
         m = url.match(/vimeo\.com\/(\d+)/);
         if (m) return "https://player.vimeo.com/video/" + m[1];
-        return url; // assume already an embeddable URL
+        return url;
       }
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var data = new FormData(form);
         var embed = (data.get("embed") || "").trim();
-        if (embed) { data.set("embed", normalizeEmbed(embed)); }
+        if (embed) data.set("embed", normalizeEmbed(embed));
+        var page = PAGES[data.get("section")] || "live.html";
 
         btn.disabled = true;
         status.className = "busy";
@@ -133,7 +147,7 @@
           .then(function (res) {
             if (res.ok && res.j.ok) {
               status.className = "ok";
-              status.innerHTML = "✓ Published! It's live now — <a href='live.html' style='color:var(--sand);'>view your feed →</a>";
+              status.innerHTML = "✓ Published! It's live now — <a href='" + page + "' style='color:var(--sand);'>view it on the site →</a>";
               form.reset();
             } else {
               status.className = "err";
