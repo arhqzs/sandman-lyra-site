@@ -19,10 +19,31 @@
     .cat span { display:inline-block; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
       color:var(--ink-soft); border:1px solid var(--line-soft); border-radius:999px; padding:0.4rem 0.85rem; cursor:pointer; transition:all .15s; }
     .cat input:checked + span { color:#221805; background:linear-gradient(180deg,var(--sand-bright),var(--sand)); border-color:transparent; }
-    #status { margin-top:1rem; padding:0.9rem 1.1rem; border-radius:8px; display:none; font-size:0.95rem; }
-    #status.ok { display:block; background:rgba(143,214,168,0.1); border:1px solid #2f6; color:#bfe9cf; }
-    #status.err { display:block; background:rgba(216,80,80,0.1); border:1px solid #a55; color:#e9b9b9; }
-    #status.busy { display:block; background:rgba(216,183,102,0.08); border:1px solid var(--line); color:var(--sand); }
+    #status, .e-status { margin-top:1rem; padding:0.9rem 1.1rem; border-radius:8px; display:none; font-size:0.95rem; }
+    #status.ok, .e-status.ok { display:block; background:rgba(143,214,168,0.1); border:1px solid #2f6; color:#bfe9cf; }
+    #status.err, .e-status.err { display:block; background:rgba(216,80,80,0.1); border:1px solid #a55; color:#e9b9b9; }
+    #status.busy, .e-status.busy { display:block; background:rgba(216,183,102,0.08); border:1px solid var(--line); color:var(--sand); }
+    /* tabs */
+    .studio-tabs { display:flex; gap:0.5rem; margin-bottom:1.4rem; }
+    .stab { flex:1; font-family:var(--body); font-size:0.74rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:600;
+      color:var(--ink-soft); background:rgba(10,16,31,0.5); border:1px solid var(--line-soft); border-radius:8px; padding:0.75rem 1rem; cursor:pointer; transition:all .15s; }
+    .stab:hover { color:var(--sand-bright); border-color:var(--sand-deep); }
+    .stab.active { color:#221805; background:linear-gradient(180deg,var(--sand-bright),var(--sand)); border-color:transparent; }
+    /* manage list */
+    .m-item { border:1px solid var(--line-soft); border-radius:10px; background:rgba(13,19,38,0.6); margin-bottom:0.8rem; overflow:hidden; }
+    .m-row { display:flex; align-items:center; gap:1rem; padding:0.85rem 1rem; }
+    .m-thumb { width:54px; height:54px; border-radius:6px; object-fit:cover; flex:none; border:1px solid var(--line-soft); }
+    .m-icon { display:grid; place-items:center; color:var(--sand); background:rgba(216,183,102,0.08); font-size:1.1rem; }
+    .m-meta { flex:1; min-width:0; }
+    .m-meta strong { display:block; }
+    .m-meta small { color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; font-size:0.68rem; }
+    .m-actions { display:flex; gap:0.4rem; flex:none; }
+    .m-actions button { font-size:0.64rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:600; cursor:pointer; border-radius:6px;
+      padding:0.45rem 0.7rem; border:1px solid var(--line-soft); background:rgba(10,16,31,0.5); color:var(--ink-soft); }
+    .m-edit:hover { color:var(--sand); border-color:var(--sand-deep); }
+    .m-del:hover { color:#e9b9b9; border-color:#a55; }
+    .m-form { padding:0 1rem 1.1rem; border-top:1px solid var(--line-soft); }
+    .m-form .field { margin-top:0.8rem; }
   </style>
 </head>
 <body>
@@ -38,13 +59,20 @@
       <div class="wrap">
         <p class="eyebrow">Your private desk</p>
         <h1>The Studio</h1>
-        <p class="lede">Choose where it goes, write something, add a photo or video, hit <strong>Publish</strong> &mdash; it appears on that section of sandmanlyra.com instantly. No email, no waiting.</p>
+        <p class="lede"><strong>Add</strong> new posts, or <strong>Manage</strong> what's already on the site — edit the words, swap the photo or video, or remove a post. Changes go live instantly.</p>
       </div>
     </div>
 
     <section class="section" style="padding-top:1rem;">
-      <div class="wrap" style="max-width:720px;">
-        <div class="card">
+      <div class="wrap" style="max-width:760px;">
+
+        <div class="studio-tabs">
+          <button class="stab active" data-tab="add" type="button">＋ Add</button>
+          <button class="stab" data-tab="manage" type="button">✎ Manage / Edit</button>
+        </div>
+
+        <!-- ============ ADD ============ -->
+        <div id="panel-add" class="card">
           <h2 style="margin-bottom:1.2rem;">Publish to the site</h2>
           <form id="studio-form">
             <div class="field">
@@ -76,21 +104,12 @@
             </div>
             <div class="field">
               <label>Categories</label>
-              <div class="cats">
-                <label class="cat"><input type="checkbox" name="categories" value="World Cup"><span>World Cup</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Betting"><span>Betting</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Backgammon"><span>Backgammon</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Boxing"><span>Boxing</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Art"><span>Art</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Philosophy"><span>Philosophy</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Friends"><span>Friends</span></label>
-                <label class="cat"><input type="checkbox" name="categories" value="Travel"><span>Travel</span></label>
-              </div>
+              <div class="cats" id="addCats"></div>
             </div>
             <div class="field">
               <label for="media">Photo or video <span style="color:var(--muted);">(optional)</span></label>
               <input type="file" id="media" name="media" accept="image/*,video/mp4" />
-              <span style="font-size:0.78rem; color:var(--muted);">Photos any size; videos up to ~80&nbsp;MB. For longer videos, paste a link below instead.</span>
+              <span style="font-size:0.78rem; color:var(--muted);">Photos any size; videos up to ~80&nbsp;MB. For longer videos, paste a link below.</span>
             </div>
             <div class="field">
               <label for="embed">…or a video link <span style="color:var(--muted);">(YouTube / Vimeo, optional)</span></label>
@@ -99,6 +118,12 @@
             <button type="submit" class="btn btn-primary" id="publishBtn">Publish &rarr;</button>
             <div id="status"></div>
           </form>
+        </div>
+
+        <!-- ============ MANAGE ============ -->
+        <div id="panel-manage" style="display:none;">
+          <p style="color:var(--ink-soft); margin-bottom:1.2rem;">Everything you've posted, newest first. <strong>Edit</strong> to change the words/section/media, or <strong>Delete</strong> to remove it.</p>
+          <div id="manage-list"></div>
         </div>
 
         <p style="font-size:0.82rem; color:var(--muted); margin-top:1.2rem; text-align:center;">
@@ -121,6 +146,40 @@
   <script src="assets/js/main.js"></script>
   <script>
     (function () {
+      var SECTIONS = ["live", "journal", "library", "sports-mind", "culture", "media"];
+      var SEC_LABELS = { live: "Live feed", journal: "Journal", library: "Library", "sports-mind": "Sports Mind", culture: "Culture", media: "Media" };
+      var CATS = ["World Cup", "Betting", "Backgammon", "Boxing", "Art", "Philosophy", "Friends", "Travel"];
+      var POSTS = [];
+
+      function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+      function subOptions(section, current) {
+        var subs = (window.SANDMAN_SECTIONS || {})[section] || [];
+        var o = '<option value="">— none —</option>';
+        subs.forEach(function (s) { o += '<option value="' + esc(s) + '"' + (s === current ? " selected" : "") + ">" + esc(s) + "</option>"; });
+        return o;
+      }
+      function catBoxes(selected, idPrefix) {
+        return CATS.map(function (c) {
+          var on = (selected || []).indexOf(c) !== -1;
+          return '<label class="cat"><input type="checkbox" name="categories" value="' + esc(c) + '"' + (on ? " checked" : "") + "><span>" + esc(c) + "</span></label>";
+        }).join("");
+      }
+
+      /* ---- tabs ---- */
+      var tabs = document.querySelectorAll(".stab");
+      Array.prototype.forEach.call(tabs, function (t) {
+        t.addEventListener("click", function () {
+          Array.prototype.forEach.call(tabs, function (x) { x.classList.remove("active"); });
+          t.classList.add("active");
+          var which = t.getAttribute("data-tab");
+          document.getElementById("panel-add").style.display = which === "add" ? "" : "none";
+          document.getElementById("panel-manage").style.display = which === "manage" ? "" : "none";
+          if (which === "manage") loadManage();
+        });
+      });
+
+      /* ---- ADD ---- */
+      document.getElementById("addCats").innerHTML = catBoxes([]);
       var form = document.getElementById("studio-form");
       var btn = document.getElementById("publishBtn");
       var status = document.getElementById("status");
@@ -131,13 +190,10 @@
         var subs = (window.SANDMAN_SECTIONS || {})[sectionSel.value] || [];
         if (!subs.length) { subWrap.style.display = "none"; subSel.innerHTML = ""; return; }
         subWrap.style.display = "";
-        subSel.innerHTML = '<option value="">— choose a sub-tab (optional) —</option>' +
-          subs.map(function (s) { return '<option value="' + s.replace(/"/g, "&quot;") + '">' + s + "</option>"; }).join("");
+        subSel.innerHTML = subOptions(sectionSel.value, "").replace("— none —", "— choose a sub-tab (optional) —");
       }
       sectionSel.addEventListener("change", fillSub);
       fillSub();
-      var PAGES = { live: "live.html", journal: "journal.html", library: "library.html",
-        "sports-mind": "sports-mind.html", culture: "culture.html", media: "media.html" };
 
       function normalizeEmbed(url) {
         if (!url) return "";
@@ -147,36 +203,117 @@
         if (m) return "https://player.vimeo.com/video/" + m[1];
         return url;
       }
-
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var data = new FormData(form);
         var embed = (data.get("embed") || "").trim();
         if (embed) data.set("embed", normalizeEmbed(embed));
-        var page = PAGES[data.get("section")] || "live.html";
-
-        btn.disabled = true;
-        status.className = "busy";
-        status.textContent = "Publishing…";
-
+        btn.disabled = true; status.className = "busy"; status.textContent = "Publishing…";
         fetch("/api/publish", { method: "POST", body: data })
           .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
           .then(function (res) {
             if (res.ok && res.j.ok) {
+              var page = (SEC_LABELS[res.j.post.section] ? res.j.post.section : "live") + ".html";
               status.className = "ok";
-              status.innerHTML = "✓ Published! It's live now — <a href='" + page + "' style='color:var(--sand);'>view it on the site →</a>";
-              form.reset();
-            } else {
-              status.className = "err";
-              status.textContent = "Couldn't publish: " + ((res.j && res.j.error) || "unknown error");
-            }
+              status.innerHTML = "✓ Published! <a href='" + page + "' style='color:var(--sand);'>view it on the site →</a>";
+              form.reset(); fillSub(); document.getElementById("addCats").innerHTML = catBoxes([]);
+            } else { status.className = "err"; status.textContent = "Couldn't publish: " + ((res.j && res.j.error) || "unknown error"); }
           })
-          .catch(function (err) {
-            status.className = "err";
-            status.textContent = "Couldn't reach the publishing engine: " + err.message;
-          })
+          .catch(function (err) { status.className = "err"; status.textContent = "Couldn't reach the engine: " + err.message; })
           .finally(function () { btn.disabled = false; });
       });
+
+      /* ---- MANAGE ---- */
+      var list = document.getElementById("manage-list");
+      function findPost(id) { for (var i = 0; i < POSTS.length; i++) if (POSTS[i].id === id) return POSTS[i]; return null; }
+      function thumb(p) {
+        if (p.type === "photo" && p.media) return '<img class="m-thumb" src="' + esc(p.media) + '" alt="">';
+        var icon = p.type === "video" ? "▶" : (p.type === "photo" ? "▤" : "✎");
+        return '<span class="m-thumb m-icon">' + icon + "</span>";
+      }
+      function itemHTML(p) {
+        return '<div class="m-item" data-id="' + esc(p.id) + '">' +
+          '<div class="m-row">' + thumb(p) +
+            '<div class="m-meta"><strong>' + (esc(p.title) || "(untitled)") + "</strong>" +
+              "<small>" + esc(SEC_LABELS[p.section] || p.section) + (p.subsection ? " · " + esc(p.subsection) : "") + " · " + esc(p.date) + "</small></div>" +
+            '<div class="m-actions"><button type="button" class="m-edit">Edit</button> <button type="button" class="m-del">Delete</button></div>' +
+          "</div>" +
+          '<div class="m-form" hidden></div>' +
+        "</div>";
+      }
+      function editFormHTML(p) {
+        var secOpts = SECTIONS.map(function (s) { return '<option value="' + s + '"' + (s === p.section ? " selected" : "") + ">" + esc(SEC_LABELS[s]) + "</option>"; }).join("");
+        var hasMedia = !!(p.media || p.video || p.embed);
+        return '' +
+          '<div class="field"><label>Section</label><select class="e-section">' + secOpts + "</select></div>" +
+          '<div class="field e-subwrap"><label>Sub-tab</label><select class="e-sub">' + subOptions(p.section, p.subsection || "") + "</select></div>" +
+          '<div class="field"><label>Title</label><input class="e-title" type="text" value="' + esc(p.title) + '"></div>' +
+          '<div class="field"><label>Words</label><textarea class="e-caption" rows="3">' + esc(p.caption) + "</textarea></div>" +
+          '<div class="field"><label>Location</label><input class="e-location" type="text" value="' + esc(p.location) + '"></div>' +
+          '<div class="field"><label>Categories</label><div class="cats e-cats">' + catBoxes(p.categories) + "</div></div>" +
+          '<div class="field"><label>Replace photo / video <span style="color:var(--muted);">(optional)</span></label><input class="e-media" type="file" accept="image/*,video/mp4"></div>' +
+          (hasMedia ? '<label style="display:flex;gap:0.5rem;align-items:center;font-size:0.85rem;color:var(--ink-soft);margin-top:0.4rem;"><input type="checkbox" class="e-remove"> Remove current media</label>' : "") +
+          '<div style="margin-top:1rem;"><button type="button" class="btn btn-primary e-save">Save changes</button> <button type="button" class="btn btn-ghost e-cancel" style="margin-left:0.5rem;">Cancel</button></div>' +
+          '<div class="e-status"></div>';
+      }
+      function loadManage() {
+        list.innerHTML = '<p style="color:var(--muted);">Loading…</p>';
+        fetch("/api/posts").then(function (r) { return r.json(); }).then(function (j) {
+          POSTS = (j && j.posts) || [];
+          list.innerHTML = POSTS.length ? POSTS.map(itemHTML).join("") : '<p style="color:var(--muted);">No posts yet — add one from the Add tab.</p>';
+        }).catch(function (e) { list.innerHTML = '<p style="color:#e9b9b9;">Couldn’t load posts: ' + esc(e.message) + "</p>"; });
+      }
+      list.addEventListener("click", function (e) {
+        var item = e.target.closest ? e.target.closest(".m-item") : null;
+        if (!item) return;
+        var id = item.getAttribute("data-id");
+
+        if (e.target.closest(".m-edit")) {
+          var f = item.querySelector(".m-form");
+          if (f.hasAttribute("hidden")) { var p = findPost(id); f.innerHTML = editFormHTML(p); f.removeAttribute("hidden"); wireEdit(item, p); }
+          else { f.setAttribute("hidden", ""); f.innerHTML = ""; }
+          return;
+        }
+        if (e.target.closest(".m-del")) {
+          if (!confirm("Delete this post? This cannot be undone.")) return;
+          var body = "id=" + encodeURIComponent(id);
+          fetch("/api/delete", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body })
+            .then(function (r) { return r.json(); })
+            .then(function (j) { if (j.ok) loadManage(); else alert("Delete failed: " + (j.error || "")); })
+            .catch(function (err) { alert("Error: " + err.message); });
+          return;
+        }
+      });
+      function wireEdit(item, p) {
+        var f = item.querySelector(".m-form");
+        var secSel = f.querySelector(".e-section"), subSel2 = f.querySelector(".e-sub"), subWrap2 = f.querySelector(".e-subwrap");
+        function refreshSub(cur) {
+          subSel2.innerHTML = subOptions(secSel.value, cur);
+          subWrap2.style.display = ((window.SANDMAN_SECTIONS || {})[secSel.value] || []).length ? "" : "none";
+        }
+        refreshSub(p.subsection || "");
+        secSel.addEventListener("change", function () { refreshSub(""); });
+        f.querySelector(".e-cancel").addEventListener("click", function () { f.setAttribute("hidden", ""); f.innerHTML = ""; });
+        f.querySelector(".e-save").addEventListener("click", function () {
+          var st = f.querySelector(".e-status");
+          st.className = "e-status busy"; st.textContent = "Saving…";
+          var fd = new FormData();
+          fd.set("id", p.id);
+          fd.set("section", secSel.value);
+          fd.set("subsection", subSel2.value);
+          fd.set("title", f.querySelector(".e-title").value);
+          fd.set("caption", f.querySelector(".e-caption").value);
+          fd.set("location", f.querySelector(".e-location").value);
+          var chosen = [];
+          f.querySelectorAll(".e-cats input:checked").forEach(function (c) { chosen.push(c.value); });
+          fd.set("categories", chosen.join(","));
+          var file = f.querySelector(".e-media").files[0]; if (file) fd.set("media", file);
+          var rm = f.querySelector(".e-remove"); if (rm && rm.checked) fd.set("removeMedia", "1");
+          fetch("/api/update", { method: "POST", body: fd }).then(function (r) { return r.json(); })
+            .then(function (j) { if (j.ok) loadManage(); else { st.className = "e-status err"; st.textContent = "Save failed: " + (j.error || ""); } })
+            .catch(function (err) { st.className = "e-status err"; st.textContent = "Error: " + err.message; });
+        });
+      }
     })();
   </script>
 </body>
