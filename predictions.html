@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Philosophy — Sandman Lyra</title>
-  <meta name="description" content="Ideas about life, risk, freedom and meaning — the principles underneath the Sandman Lyra universe." />
+  <title>Predictions — Sandman Lyra</title>
+  <meta name="description" content="The calls, the reasoning and the honest track record — sports betting and prediction-market picks from Sandman Lyra, with running win-loss and ROI in units." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -20,10 +20,10 @@
         <li><a href="index.html">Home</a></li>
         <li><a href="live.html">Live</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="library.html" class="active">Library</a></li>
+        <li><a href="library.html">Library</a></li>
         <li><a href="media.html">Media</a></li>
         <li><a href="sports-mind.html">Sports Mind</a></li>
-        <li><a href="predictions.html">Predictions</a></li>
+        <li><a href="predictions.html" class="active">Predictions</a></li>
         <li><a href="projects.html">Projects</a></li>
         <li><a href="culture.html">Culture</a></li>
         <li><a href="contact.html">Contact</a></li>
@@ -34,55 +34,38 @@
   <main>
     <div class="page-head">
       <div class="wrap">
-        <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Philosophy</p>
-        <p class="eyebrow">Life &middot; Risk &middot; Freedom &middot; Meaning</p>
-        <h1>Philosophy</h1>
-        <p class="lede">The principles underneath everything &mdash; how I think about risk, freedom, fortune and the way to live.</p>
+        <p class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Predictions</p>
+        <p class="eyebrow">The Oracle &middot; Calls &amp; record</p>
+        <h1>Predictions</h1>
+        <p class="lede">Where I read the board and say it out loud &mdash; sports and the markets, the reasoning written down before the result is known. Every logged pick is kept, won or lost, and the record speaks for itself.</p>
       </div>
     </div>
 
+    <!-- ============ TRACK RECORD ============ -->
     <section class="section" style="padding-top:1rem;">
       <div class="wrap">
-        <article class="prose reveal">
-          <p>
-            A gambler learns philosophy the hard way: at the table, under
-            pressure, with something real at stake. These are the ideas I keep
-            returning to &mdash; written down so they can be tested, argued with,
-            and refined over time.
-          </p>
+        <h2 class="sec-title">Track record</h2>
+        <p class="sec-sub">Running win&ndash;loss and ROI &mdash; measured in units, the professional way</p>
+        <div class="stat-grid" id="pred-stats"></div>
+        <p class="units-note">A <strong>unit</strong> is one standard stake &mdash; the honest way to measure a bettor&rsquo;s edge without ever showing the bankroll. <strong>ROI</strong> is profit as a percentage of everything staked. The numbers update the moment a pick is settled.</p>
+      </div>
+    </section>
 
-          <blockquote>
-            The dice are honest. They owe you nothing and remember nothing. The
-            only thing you control is the quality of your decision.
-          </blockquote>
+    <!-- ============ LEDGER ============ -->
+    <section class="section band">
+      <div class="wrap">
+        <h2 class="sec-title">The ledger</h2>
+        <p class="sec-sub">Every pick, kept on the record &mdash; newest first</p>
+        <div id="pred-ledger" style="margin-top:2.2rem;"></div>
+      </div>
+    </section>
 
-          <h2>On risk</h2>
-          <p>
-            <em>Your reflections on risk and uncertainty &mdash; what the board
-            and the bet have taught you about living with the unknown.</em>
-          </p>
-
-          <h2>On freedom</h2>
-          <p>
-            <em>Why a place of your own matters. Why ownership of your work and
-            your thoughts is a kind of freedom.</em>
-          </p>
-
-          <h2>On meaning</h2>
-          <p>
-            <em>What you are really building, and why. The longer view.</em>
-          </p>
-
-          <p class="signature" style="margin-top:2rem;">&mdash; Sandman Lyra</p>
-        </article>
-
-        <div class="empty reveal" style="margin-top:3rem;">
-          <span class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
-          </span>
-          <h3>Reflections gather here over time</h3>
-          <p>This is a living document &mdash; ideas are added, revisited and rewritten as they mature.</p>
-        </div>
+    <!-- ============ THE CALLS ============ -->
+    <section class="section">
+      <div class="wrap">
+        <h2 class="sec-title">The calls</h2>
+        <p class="sec-sub">The reasoning behind each pick, in full</p>
+        <div class="pred-calls" id="pred-calls" style="margin-top:2.4rem;"></div>
       </div>
     </section>
   </main>
@@ -128,7 +111,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="19" height="14" rx="3"/><path d="m21 8-9 5.5L3 8"/></svg>
             </a>
           </div>
-          <p class="foot-note">Handles arrive with the launch &mdash; for now, every door leads to the contact page.</p>
+          <p class="foot-note">Picks are opinion and record-keeping, not betting advice. Always gamble responsibly.</p>
         </div>
       </div>
       <div class="footer-bottom">
@@ -139,5 +122,7 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script src="assets/data/feed-data.js"></script>
+  <script src="assets/js/predictions.js"></script>
 </body>
 </html>

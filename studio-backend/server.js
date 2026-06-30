@@ -16,7 +16,8 @@ const DATA_DIR = path.join(WEBROOT, "assets", "data");
 const IMG_DIR = path.join(WEBROOT, "assets", "images", "live");
 const POSTS_FILE = path.join(DATA_DIR, "posts.json");
 const FEED_JS = path.join(DATA_DIR, "feed-data.js");
-const SECTIONS = ["live", "journal", "library", "sports-mind", "culture", "media"];
+const SECTIONS = ["live", "predictions", "journal", "library", "sports-mind", "culture", "media"];
+const BET_STATUSES = ["pending", "won", "lost", "void"];
 
 fs.mkdirSync(DATA_DIR, { recursive: true });
 fs.mkdirSync(IMG_DIR, { recursive: true });
@@ -39,6 +40,18 @@ function savePosts(posts) {
 }
 function slugify(s) { return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40); }
 function cleanCats(c) { return (Array.isArray(c) ? c : String(c || "").split(",")).map((x) => String(x).trim()).filter(Boolean); }
+// Prediction / bet fields — power the track record & ROI ledger.
+function applyBet(post, b) {
+  function s(v, max) { return String(v == null ? "" : v).trim().slice(0, max || 200); }
+  if ("event" in b) { const v = s(b.event, 120); if (v) post.event = v; else delete post.event; }
+  if ("competition" in b) { const v = s(b.competition, 120); if (v) post.competition = v; else delete post.competition; }
+  if ("pick" in b) { const v = s(b.pick, 200); if (v) post.pick = v; else delete post.pick; }
+  if ("odds" in b) { const n = parseFloat(b.odds); if (!isNaN(n) && n > 0) post.odds = n; else delete post.odds; }
+  if ("stake" in b) { const n = parseFloat(b.stake); if (!isNaN(n) && n >= 0) post.stake = n; else delete post.stake; }
+  if ("status" in b) { const v = s(b.status, 12).toLowerCase(); post.status = BET_STATUSES.indexOf(v) !== -1 ? v : "pending"; }
+  else if (post.section === "predictions" && !post.status) post.status = "pending";
+}
+function stripBet(post) { ["event", "competition", "pick", "odds", "stake", "status"].forEach((k) => delete post[k]); }
 function applyMedia(post, file) {
   var rel = "assets/images/live/" + file.filename;
   if ((file.mimetype || "").indexOf("video") === 0) { post.type = "video"; post.video = rel; delete post.media; delete post.embed; }
@@ -69,7 +82,8 @@ app.post("/api/publish", (req, res) => {
       if (subsection) post.subsection = subsection;
       if (req.file) applyMedia(post, req.file);
       if (embed) { post.type = "video"; post.embed = embed; }
-      if (!title && !caption && !post.media && !post.video && !post.embed) return res.status(400).json({ ok: false, error: "Nothing to publish — add a caption, photo, or video." });
+      if (section === "predictions") applyBet(post, b);
+      if (!title && !caption && !post.media && !post.video && !post.embed && !post.pick) return res.status(400).json({ ok: false, error: "Nothing to publish — add a caption, photo, video, or a pick." });
       const now = new Date();
       post.date = now.toISOString().slice(0, 10);
       post.id = post.date + "-" + section + "-" + (slugify(title) || Math.random().toString(36).slice(2, 7));
@@ -98,6 +112,8 @@ app.post("/api/update", (req, res) => {
       if (b.removeMedia === "1") { unlinkMedia(post); delete post.media; delete post.video; delete post.embed; post.type = "text"; }
       if ("embed" in b && (b.embed || "").trim()) { unlinkMedia(post); delete post.media; delete post.video; post.type = "video"; post.embed = b.embed.trim(); }
       if (req.file) { unlinkMedia(post); applyMedia(post, req.file); }
+      if (post.section === "predictions") applyBet(post, b);
+      else stripBet(post);
       savePosts(posts);
       res.json({ ok: true, post: post });
     } catch (e) { res.status(500).json({ ok: false, error: String((e && e.message) || e) }); }

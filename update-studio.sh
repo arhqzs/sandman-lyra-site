@@ -25,6 +25,26 @@ curl -fsSL "$RAW/deploy.sh" -o /tmp/sl-deploy.sh && sed -i 's/\r$//' /tmp/sl-dep
 echo "== [3/4] Updating the publishing engine =="
 curl -fsSL "$RAW/studio-backend/server.js" -o /opt/sandman-studio/server.js
 ( cd /opt/sandman-studio && npm install --omit=dev --no-audit --no-fund >/dev/null 2>&1 || true )
+
+echo "== Seeding the first prediction (only if none exist yet) =="
+node <<'NODE' || true
+const fs = require("fs");
+const f = "/var/www/sandmanlyra/assets/data/posts.json";
+let a = []; try { a = JSON.parse(fs.readFileSync(f, "utf8")); } catch (e) {}
+if (!a.some(function (p) { return p.section === "predictions"; })) {
+  a.unshift({
+    id: "2026-06-29-predictions-brazil-japan", date: "2026-06-29", section: "predictions", type: "text",
+    title: "Brazil to find a way through",
+    caption: "The oracle got a bit confused yesterday and had to take a long sleep…\n\nNot exactly sure which timeline we are on right now, so this is just a small bet.\n\nBrazil are bad this year, but that is also why we are getting a good price. Japan are organized and dangerous, and I expect a lot of sharp money to come in on Japan before kickoff.\n\nStill, I think Brazil find a way through. FIFA definitely prefer Brazil in the next round, and these playoff games usually get tight. My read is a narrow Brazil win — most likely 2-1.\n\nAlso, if Brazil go ahead, we may want to look at live betting the unders. If they get the lead, I expect them to slow the game down, protect the result, and make Japan work very hard to open them up.",
+    location: "", categories: ["World Cup", "Betting"],
+    event: "Brazil vs Japan", competition: "World Cup 2026 · Playoff",
+    pick: "Brazil to win — most likely 2–1", stake: 0.5, status: "pending"
+  });
+  fs.writeFileSync(f, JSON.stringify(a, null, 2));
+  console.log("  seeded the Brazil vs Japan prediction");
+} else { console.log("  predictions already present — leaving them untouched"); }
+NODE
+
 systemctl restart sandman-studio
 
 echo "== [4/4] Checking the engine =="
@@ -33,5 +53,7 @@ curl -fsS http://127.0.0.1:3000/api/health || echo "(engine not responding — c
 echo ""
 echo ""
 echo "== DONE!  ✦ =="
-echo "The Studio now has a 'Where should this go?' picker."
-echo "Pick a section → Publish → it appears on that section's page."
+echo "New: a Predictions section with a track record + ROI ledger."
+echo "In the Studio, pick 'Predictions', fill in the pick / odds / stake,"
+echo "and set the result later to update the win rate and ROI automatically."
+echo "See it at:  https://sandmanlyra.com/predictions.html"

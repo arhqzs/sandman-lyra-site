@@ -46,6 +46,10 @@
     .m-form .field { margin-top:0.8rem; }
     .m-filters { display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:1.2rem; }
     .m-filters select { background:rgba(5,8,15,0.7); border:1px solid var(--line-soft); color:var(--ink); padding:0.55rem 0.85rem; border-radius:8px; font:inherit; font-size:0.85rem; }
+    /* prediction bet fields */
+    .bet-note { font-size:0.82rem; color:var(--sand); background:rgba(216,183,102,0.06); border:1px solid var(--line-soft); border-radius:8px; padding:0.7rem 0.9rem; margin-bottom:1rem; line-height:1.6; }
+    .bet-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.8rem; }
+    @media (max-width:540px){ .bet-row { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -81,6 +85,7 @@
               <label for="section">Where should this go?</label>
               <select id="section" name="section">
                 <option value="live">Live feed — from the road</option>
+                <option value="predictions">Predictions — a call / bet</option>
                 <option value="journal">Journal</option>
                 <option value="library">Library — essays &amp; writing</option>
                 <option value="sports-mind">Sports Mind</option>
@@ -92,12 +97,46 @@
               <label for="subsection">Sub-tab</label>
               <select id="subsection" name="subsection"></select>
             </div>
+            <div id="betWrap" style="display:none;">
+              <div class="bet-note">A call for the record. Fill in the pick and it lands in the ledger; set the result later and the win rate &amp; ROI update on their own.</div>
+              <div class="field">
+                <label for="event">Event <span style="color:var(--muted);">(e.g. Brazil vs Japan)</span></label>
+                <input type="text" id="event" name="event" placeholder="Who's playing, or the market" />
+              </div>
+              <div class="field">
+                <label for="competition">Competition <span style="color:var(--muted);">(optional)</span></label>
+                <input type="text" id="competition" name="competition" placeholder="e.g. World Cup 2026 · Playoff" />
+              </div>
+              <div class="field">
+                <label for="pick">Your pick</label>
+                <input type="text" id="pick" name="pick" placeholder="e.g. Brazil to win — most likely 2–1" />
+              </div>
+              <div class="bet-row">
+                <div class="field">
+                  <label for="odds">Odds <span style="color:var(--muted);">(decimal)</span></label>
+                  <input type="number" step="0.01" min="1" id="odds" name="odds" placeholder="2.10" />
+                </div>
+                <div class="field">
+                  <label for="stake">Stake <span style="color:var(--muted);">(units)</span></label>
+                  <input type="number" step="0.25" min="0" id="stake" name="stake" placeholder="1" />
+                </div>
+                <div class="field">
+                  <label for="status">Result</label>
+                  <select id="status" name="status">
+                    <option value="pending">Pending</option>
+                    <option value="won">Won</option>
+                    <option value="lost">Lost</option>
+                    <option value="void">Void</option>
+                  </select>
+                </div>
+              </div>
+            </div>
             <div class="field">
               <label for="title">Title <span style="color:var(--muted);">(optional)</span></label>
               <input type="text" id="title" name="title" placeholder="A short heading" />
             </div>
             <div class="field">
-              <label for="caption">Your words</label>
+              <label for="caption" id="captionLabel">Your words</label>
               <textarea id="caption" name="caption" rows="5" placeholder="What's happening? A line from the road&hellip;"></textarea>
             </div>
             <div class="field">
@@ -152,8 +191,10 @@
   <script src="assets/js/main.js"></script>
   <script>
     (function () {
-      var SECTIONS = ["live", "journal", "library", "sports-mind", "culture", "media"];
-      var SEC_LABELS = { live: "Live feed", journal: "Journal", library: "Library", "sports-mind": "Sports Mind", culture: "Culture", media: "Media" };
+      var SECTIONS = ["live", "predictions", "journal", "library", "sports-mind", "culture", "media"];
+      var SEC_LABELS = { live: "Live feed", predictions: "Predictions", journal: "Journal", library: "Library", "sports-mind": "Sports Mind", culture: "Culture", media: "Media" };
+      var BET_STATUSES = ["pending", "won", "lost", "void"];
+      function statusOptions(cur) { return BET_STATUSES.map(function (s) { return '<option value="' + s + '"' + (s === (cur || "pending") ? " selected" : "") + ">" + s.charAt(0).toUpperCase() + s.slice(1) + "</option>"; }).join(""); }
       var CATS = ["World Cup", "Betting", "Backgammon", "Boxing", "Art", "Philosophy", "Friends", "Travel"];
       var POSTS = [];
 
@@ -192,14 +233,24 @@
       var sectionSel = document.getElementById("section");
       var subSel = document.getElementById("subsection");
       var subWrap = document.getElementById("subWrap");
+      var betWrap = document.getElementById("betWrap");
+      var captionLabel = document.getElementById("captionLabel");
       function fillSub() {
         var subs = (window.SANDMAN_SECTIONS || {})[sectionSel.value] || [];
         if (!subs.length) { subWrap.style.display = "none"; subSel.innerHTML = ""; return; }
         subWrap.style.display = "";
         subSel.innerHTML = subOptions(sectionSel.value, "").replace("— none —", "— choose a sub-tab (optional) —");
       }
-      sectionSel.addEventListener("change", fillSub);
-      fillSub();
+      function toggleBet() {
+        var on = sectionSel.value === "predictions";
+        betWrap.style.display = on ? "" : "none";
+        // disabled inputs aren't submitted — keeps bet fields out of non-prediction posts
+        Array.prototype.forEach.call(betWrap.querySelectorAll("input, select"), function (el) { el.disabled = !on; });
+        if (captionLabel) captionLabel.textContent = on ? "Your reasoning" : "Your words";
+      }
+      function onSection() { fillSub(); toggleBet(); }
+      sectionSel.addEventListener("change", onSection);
+      onSection();
 
       function normalizeEmbed(url) {
         if (!url) return "";
@@ -274,6 +325,16 @@
         return '' +
           '<div class="field"><label>Section</label><select class="e-section">' + secOpts + "</select></div>" +
           '<div class="field e-subwrap"><label>Sub-tab</label><select class="e-sub">' + subOptions(p.section, p.subsection || "") + "</select></div>" +
+          '<div class="e-betwrap">' +
+            '<div class="field"><label>Event</label><input class="e-event" type="text" value="' + esc(p.event || "") + '"></div>' +
+            '<div class="field"><label>Competition</label><input class="e-competition" type="text" value="' + esc(p.competition || "") + '"></div>' +
+            '<div class="field"><label>Pick</label><input class="e-pick" type="text" value="' + esc(p.pick || "") + '"></div>' +
+            '<div class="bet-row">' +
+              '<div class="field"><label>Odds</label><input class="e-odds" type="number" step="0.01" min="1" value="' + (p.odds != null ? p.odds : "") + '"></div>' +
+              '<div class="field"><label>Stake (u)</label><input class="e-stake" type="number" step="0.25" min="0" value="' + (p.stake != null ? p.stake : "") + '"></div>' +
+              '<div class="field"><label>Result</label><select class="e-betstatus">' + statusOptions(p.status) + "</select></div>" +
+            "</div>" +
+          "</div>" +
           '<div class="field"><label>Title</label><input class="e-title" type="text" value="' + esc(p.title) + '"></div>' +
           '<div class="field"><label>Words</label><textarea class="e-caption" rows="3">' + esc(p.caption) + "</textarea></div>" +
           '<div class="field"><label>Location</label><input class="e-location" type="text" value="' + esc(p.location) + '"></div>' +
@@ -314,12 +375,15 @@
       function wireEdit(item, p) {
         var f = item.querySelector(".m-form");
         var secSel = f.querySelector(".e-section"), subSel2 = f.querySelector(".e-sub"), subWrap2 = f.querySelector(".e-subwrap");
+        var betWrap2 = f.querySelector(".e-betwrap");
         function refreshSub(cur) {
           subSel2.innerHTML = subOptions(secSel.value, cur);
           subWrap2.style.display = ((window.SANDMAN_SECTIONS || {})[secSel.value] || []).length ? "" : "none";
         }
+        function refreshBet() { if (betWrap2) betWrap2.style.display = secSel.value === "predictions" ? "" : "none"; }
         refreshSub(p.subsection || "");
-        secSel.addEventListener("change", function () { refreshSub(""); });
+        refreshBet();
+        secSel.addEventListener("change", function () { refreshSub(""); refreshBet(); });
         f.querySelector(".e-cancel").addEventListener("click", function () { f.setAttribute("hidden", ""); f.innerHTML = ""; });
         f.querySelector(".e-save").addEventListener("click", function () {
           var st = f.querySelector(".e-status");
@@ -331,6 +395,12 @@
           fd.set("title", f.querySelector(".e-title").value);
           fd.set("caption", f.querySelector(".e-caption").value);
           fd.set("location", f.querySelector(".e-location").value);
+          fd.set("event", f.querySelector(".e-event").value);
+          fd.set("competition", f.querySelector(".e-competition").value);
+          fd.set("pick", f.querySelector(".e-pick").value);
+          fd.set("odds", f.querySelector(".e-odds").value);
+          fd.set("stake", f.querySelector(".e-stake").value);
+          fd.set("status", f.querySelector(".e-betstatus").value);
           var chosen = [];
           f.querySelectorAll(".e-cats input:checked").forEach(function (c) { chosen.push(c.value); });
           fd.set("categories", chosen.join(","));

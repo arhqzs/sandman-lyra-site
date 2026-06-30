@@ -6,6 +6,7 @@
    ============================================================ */
 window.SANDMAN_SECTIONS = {
   "live":        [],
+  "predictions": [],
   "journal":     ["Travels", "Notes", "Wins & Losses", "Milestones"],
   "library":     ["Essays & Articles", "Stories", "Philosophy & Reflections", "Travel Writing", "Books"],
   "sports-mind": ["Backgammon", "Chess", "Poker", "Sports Betting", "Prediction Markets", "Football"],

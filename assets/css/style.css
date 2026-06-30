@@ -680,3 +680,94 @@ p + p { margin-top: 1rem; }
   .post-head { flex-direction: column; gap: 0.25rem; }
   .post-loc { text-align: left; }
 }
+
+/* ============================================================
+   21. PREDICTIONS — track record, ROI ledger & the calls
+   ============================================================ */
+/* dashboard */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem; margin-top: 2.4rem;
+}
+.stat {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(13,19,38,0.85), rgba(8,12,24,0.55));
+  padding: 1.5rem 1rem; text-align: center; box-shadow: var(--shadow);
+}
+.stat-num {
+  display: block; font-family: var(--display); font-weight: 600; line-height: 1;
+  font-size: clamp(1.9rem, 3.4vw, 2.6rem); color: var(--sand);
+}
+.stat-num span { color: var(--muted); font-size: 0.62em; margin: 0 0.06em; vertical-align: 0.04em; }
+.stat-num.pos { color: #8fd6a8; }
+.stat-num.neg { color: #e7a0a0; }
+.stat-label {
+  display: block; margin-top: 0.7rem; font-size: 0.62rem; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+}
+.units-note {
+  max-width: 64ch; margin: 1.8rem auto 0; text-align: center;
+  font-size: 0.85rem; color: var(--muted); line-height: 1.7;
+}
+.units-note strong { color: var(--ink-soft); }
+
+/* ledger table */
+.ledger-wrap { overflow-x: auto; border: 1px solid var(--line-soft); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.ledger { width: 100%; min-width: 660px; border-collapse: collapse; background: rgba(10,16,31,0.5); }
+.ledger thead th {
+  text-align: left; font-family: var(--body); font-size: 0.6rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--sand);
+  padding: 1rem 1.1rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+.ledger tbody td { padding: 0.95rem 1.1rem; border-bottom: 1px solid var(--line-soft); font-size: 0.9rem; color: var(--ink-soft); vertical-align: top; }
+.ledger tbody tr:last-child td { border-bottom: 0; }
+.ledger tbody tr:hover { background: rgba(216,183,102,0.04); }
+.lg-date { color: var(--muted); white-space: nowrap; font-size: 0.82rem; }
+.lg-event { color: var(--ink); }
+.lg-event small { display: block; color: var(--muted); font-size: 0.74rem; margin-top: 0.15rem; }
+.lg-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lg-num.pos { color: #8fd6a8; }
+.lg-num.neg { color: #e7a0a0; }
+
+/* result badges (shared: ledger + call cards) */
+.res {
+  display: inline-block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 0.28rem 0.6rem; border-radius: 999px; white-space: nowrap;
+  border: 1px solid var(--line-soft);
+}
+.res.pending { color: var(--sand); background: rgba(216,183,102,0.08); border-color: var(--line); }
+.res.won { color: #bfe9cf; background: rgba(143,214,168,0.12); border-color: rgba(143,214,168,0.4); }
+.res.lost { color: #e9b9b9; background: rgba(216,80,80,0.1); border-color: rgba(216,80,80,0.4); }
+.res.void { color: var(--muted); background: rgba(125,122,110,0.1); }
+
+/* the calls (write-ups) */
+.pred-calls { max-width: 720px; margin-inline: auto; display: grid; gap: 1.8rem; }
+.pred {
+  border: 1px solid var(--line); border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, rgba(13,19,38,0.85), rgba(8,12,24,0.6));
+  padding: 1.5rem 1.6rem; box-shadow: var(--shadow); transition: border-color .2s ease;
+}
+.pred:target { border-color: var(--sand); }
+.pred-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem; }
+.pred-top .post-date { color: var(--sand); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; }
+.pred-title { font-size: 1.5rem; line-height: 1.2; margin-bottom: 0.5rem; }
+.pred-event { color: var(--ink); font-weight: 600; font-size: 1.02rem; margin-bottom: 0.9rem; }
+.pred-event span { color: var(--muted); font-weight: 400; }
+.pred-line {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+  padding: 0.8rem 1rem; margin-bottom: 1.1rem; border-radius: 10px;
+  background: rgba(216,183,102,0.06); border: 1px solid var(--line-soft);
+  font-size: 0.9rem; color: var(--ink-soft);
+}
+.pred-line b { color: var(--sand); font-weight: 600; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; margin-right: 0.3rem; }
+.pred-line .dot { color: var(--line); }
+.pred-analysis { color: var(--ink-soft); font-size: 0.98rem; line-height: 1.8; }
+.pred-analysis p + p { margin-top: 0.9rem; }
+.pred-foot { margin-top: 1.2rem; display: flex; justify-content: flex-end; }
+.pred-foot .share-btn .copied-tag { color: var(--sand-bright); }
+.pred-empty { text-align: center; color: var(--muted); padding: 2.6rem 1rem; }
+
+@media (max-width: 600px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .pred { padding: 1.3rem 1.2rem; }
+}
